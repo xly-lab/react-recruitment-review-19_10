@@ -10,8 +10,8 @@ export default function ajax(url,data={},type="GET"){
             paramStr.substring(0,paramStr.length-1);
             url+='?'+paramStr;
         }
-        return axios(url);
+        return axios.get(url);
     }else {
-        return axios(url,data)
+        return axios.post(url,data)
     }
 }

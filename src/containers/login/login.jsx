@@ -36,9 +36,9 @@ class Login extends Component {
                     <span>{msg? <p className='error-msg'>{msg}</p>:null}</span>
                 </div>
                 <WhiteSpace/>
-                <WhiteSpace/>                    <WhiteSpace/>
                 <WhiteSpace/>
-
+                <WhiteSpace/>
+                <WhiteSpace/>
                 <WingBlank>
                     <List>
                         <InputItem placeholder='你的账户' onChange={e=>this.setState({username:e})}>账号：</InputItem>

@@ -1,5 +1,5 @@
 import {reqLogin,reqRegister,reqUpdate} from '../api/index'
-import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG} from './action-types'
+import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG,RECEIVE_USER,RESET_USER} from './action-types'
 // ========================同步=============================================================
 //授权成功的同步action
 const authSuccess =(user) => ({type:AUTH_SUCCESS,data:user});
@@ -7,7 +7,10 @@ const authSuccess =(user) => ({type:AUTH_SUCCESS,data:user});
 const errorMsg = (msg) => ({type:ERROR_MSG,data:msg});
 //清空msg信息
 export const initMsg = ()=>({type:INIT_MSG});
-
+//更新数据成功的同步action
+const receiveUser = (user) =>({type:RECEIVE_USER,data:user});
+//重置userde的同步action
+const resetUser = (msg) =>({type:RESET_USER,data:msg});
 // ============================异步===========================================================
 //注册异步action
 export const register = (user) =>{
@@ -53,3 +56,14 @@ export const login = (user) =>{
         }
     }
 };
+//异步更新action
+export const update=(user)=>{
+    return async dispatch=>{
+        const result =  await reqUpdate(user);
+        if(result.code===0){
+            dispatch(receiveUser(result.data))
+        }else {
+            dispatch(resetUser(result.msg))
+        }
+    }
+}

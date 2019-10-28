@@ -2,7 +2,8 @@ import {combineReducers} from 'redux'
 import {getRedirectTo} from '../utils'
 import {
     AUTH_SUCCESS,
-    ERROR_MSG,INIT_MSG
+    ERROR_MSG,INIT_MSG,
+    RESET_USER,RECEIVE_USER
 } from './action-types'
 
 const userInit = {
@@ -21,6 +22,10 @@ function user(state = userInit ,action) {
             return {...state,msg:action.data};
         case INIT_MSG:
             return {...state,msg:''};
+        case RECEIVE_USER:
+            return {...action.data};
+        case RESET_USER:
+            return {...state,msg:action.data};
         default:
             return state
     }

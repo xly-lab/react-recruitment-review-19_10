@@ -9,8 +9,9 @@ import HeaderSeleter from "../../components/header-seleter/header-seleter";
         return (
             <div>
                 <NavBar>Boss 信息</NavBar>
-                <HeaderSeleter/>
                 <WingBlank>
+                <HeaderSeleter/>
+                    <WhiteSpace/>
                     <InputItem placeholder='请输入招聘职位'>招聘职位:</InputItem>
                     <InputItem placeholder='请输入公司名称'>公司名称:</InputItem>
                     <InputItem placeholder='请输入职位薪资'>职位薪资:</InputItem>

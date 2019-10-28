@@ -8,11 +8,12 @@ class GodInfo extends Component {
     render() {
         return (
             <div>
-                <NavBar>Boss 信息</NavBar>
-                <HeaderSeleter/>
+                <NavBar>God 信息</NavBar>
                 <WingBlank>
+                <HeaderSeleter/>
+                    <WhiteSpace/>
                     <InputItem placeholder='请输入需求职位'>需求职位:</InputItem>
-                    <TextareaItem title="职位描述:"
+                    <TextareaItem title="个人描述:"
                                   rows={3}/>
                     <WhiteSpace/>
                     <Button type='primary'>保存</Button>

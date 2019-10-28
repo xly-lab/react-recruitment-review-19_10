@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {WingBlank,InputItem,TextareaItem,Button,NavBar,WhiteSpace} from 'antd-mobile'
+import {Redirect} from 'react-router-dom'
 
 import HeaderSeleter from "../../components/header-seleter/header-seleter";
+import {update} from '../../redux/actions'
 
 class GodInfo extends Component {
     state={
@@ -14,9 +16,15 @@ class GodInfo extends Component {
         this.setState({header})
     };
     save=()=>{
-
+        this.props.update(this.state)
     };
     render() {
+        const {header,type} =this.props.user;
+        debugger
+        if(header){
+            let path=type==='boss'?'/boss':'/god';
+            return <Redirect to={path}/>
+        }
         return (
             <div>
                 <NavBar>God 信息</NavBar>
@@ -35,5 +43,5 @@ class GodInfo extends Component {
     }
 }
 export default connect(
-    state=>({}),{}
+    state=>({user:state.user}),{update}
 )(GodInfo)

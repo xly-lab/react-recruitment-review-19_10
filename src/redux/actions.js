@@ -59,11 +59,12 @@ export const login = (user) =>{
 //异步更新action
 export const update=(user)=>{
     return async dispatch=>{
-        const result =  await reqUpdate(user);
+        const response =  await reqUpdate(user);
+        const result = response.data;
         if(result.code===0){
             dispatch(receiveUser(result.data))
-        }else {
+        }else{
             dispatch(resetUser(result.msg))
         }
     }
-}
+};

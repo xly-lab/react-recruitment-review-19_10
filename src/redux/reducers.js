@@ -23,9 +23,9 @@ function user(state = userInit ,action) {
         case INIT_MSG:
             return {...state,msg:''};
         case RECEIVE_USER:
-            return {...action.data};
+            return action.data;
         case RESET_USER:
-            return {...state,msg:action.data};
+            return {...action,msg:action.data};
         default:
             return state
     }

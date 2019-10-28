@@ -1,7 +1,16 @@
 import React, {Component} from 'react'
 import {List,Grid} from 'antd-mobile'
+import PropTypes from 'prop-types'
+
+
 
 export default class HeaderSeleter extends Component {
+    static propTypes ={
+        getHeader:PropTypes.func.isRequired,
+    };
+    state={
+        icon:null
+    };
     constructor(props){
         super(props);
         this.imgArr=[];
@@ -12,13 +21,24 @@ export default class HeaderSeleter extends Component {
             })
         }
     }
+    sendHeader=({text,icon})=>{
+        console.log({text,icon})
+        this.props.getHeader(text);
+        this.setState({icon})
+    };
     render() {
-        const showHeader = '请选择你的头像';
+        const {icon} = this.state
+        const showHeader = !icon?'请选择你的头像':(
+            <div>
+                你选择的头像:<img src={icon}/>
+            </div>
+        );
         return (
             <div>
                 <List renderHeader={()=>showHeader}>
                     <Grid data={this.imgArr}
-                          columnNum={5}/>
+                          columnNum={5}
+                          onClick={this.sendHeader}  />
                 </List>
             </div>
         )

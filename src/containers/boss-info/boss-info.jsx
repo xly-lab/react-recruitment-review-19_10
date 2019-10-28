@@ -5,20 +5,34 @@ import {WingBlank,InputItem,TextareaItem,Button,NavBar,WhiteSpace} from 'antd-mo
 import HeaderSeleter from "../../components/header-seleter/header-seleter";
 
  class BossInfo extends Component {
+     state={
+         company:'',
+         info:'',
+         header:'',
+         post:'',
+         salary:''
+     };
+    getHeader=(header)=>{
+        this.setState({header})
+    };
+    save=()=>{
+
+     };
     render() {
         return (
             <div>
                 <NavBar>Boss 信息</NavBar>
                 <WingBlank>
-                <HeaderSeleter/>
+                <HeaderSeleter getHeader={this.getHeader}/>
                     <WhiteSpace/>
-                    <InputItem placeholder='请输入招聘职位'>招聘职位:</InputItem>
-                    <InputItem placeholder='请输入公司名称'>公司名称:</InputItem>
-                    <InputItem placeholder='请输入职位薪资'>职位薪资:</InputItem>
+                    <InputItem placeholder='请输入招聘职位' onChange={e=>this.setState({post:e})}>招聘职位:</InputItem>
+                    <InputItem placeholder='请输入公司名称' onChange={e=>this.setState({company:e})}>公司名称:</InputItem>
+                    <InputItem placeholder='请输入职位薪资' onChange={e=>this.setState({salary:e})}>职位薪资:</InputItem>
                     <TextareaItem title="职位要求:"
-                                  rows={3}/>
+                                  rows={3}
+                                  onChange={e=>this.setState({info:e})}/>
                     <WhiteSpace/>
-                    <Button type='primary'>保存</Button>
+                    <Button type='primary' onClick={this.save}>保存</Button>
                 </WingBlank>
             </div>
         )

@@ -30,7 +30,7 @@ export default class HeaderSeleter extends Component {
         const {icon} = this.state
         const showHeader = !icon?'请选择你的头像':(
             <div>
-                你选择的头像:<img src={icon}/>
+                <p className='header-p'>你选择的头像:</p><img src={icon}/>
             </div>
         );
         return (

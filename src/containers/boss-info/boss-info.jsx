@@ -20,7 +20,7 @@ import HeaderSeleter from "../../components/header-seleter/header-seleter";
      };
     render() {
         return (
-            <div>
+            <div className='boss-info'>
                 <NavBar>Boss 信息</NavBar>
                 <WingBlank>
                 <HeaderSeleter getHeader={this.getHeader}/>

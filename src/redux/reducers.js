@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-
+import {getRedirectTo} from '../utils'
 import {
     AUTH_SUCCESS,
     ERROR_MSG,INIT_MSG
@@ -15,7 +15,8 @@ const userInit = {
 function user(state = userInit ,action) {
     switch (action.type) {
         case AUTH_SUCCESS:
-            return {...action.data,redirectTo: '/'};
+            const {type,header} =action.data;
+            return {...action.data,redirectTo: getRedirectTo(type,header)};
         case ERROR_MSG:
             return {...state,msg:action.data};
         case INIT_MSG:

@@ -8,8 +8,8 @@ const Item = TabBar.Item;
         navList:PropTypes.array.isRequired
     };
     render() {
-        const {navList} =this.props;
-
+        let {navList} =this.props;
+        navList=navList.filter(nav=>!nav.hide);
         return (
             <TabBar>
                 {navList.map(nav=>(

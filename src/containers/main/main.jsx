@@ -76,6 +76,16 @@ class Main extends Component {
         }
         const {navList} = this;
         const currentNav = navList.find(nav=>nav.path===this.props.location.pathname);
+        if(currentNav){
+            // 决定哪个路由需要隐藏
+            if(user.type==='laoban') {
+                // 隐藏数组的第2个
+                navList[1].hide = true
+            } else {
+                // 隐藏数组的第1个
+                navList[0].hide = true
+            }
+        }
         return (
             <div>
                 {currentNav?<NavBar>{currentNav.title}</NavBar>:null}

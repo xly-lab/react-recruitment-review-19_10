@@ -10,6 +10,7 @@ import Boss from "../boss/boss";
 import God from "../god/god";
 import NotFound from "../../components/not-found/not-found";
 import Personal from "../personal/personal";
+import NavFooter from "../../components/nav-footer/nav-footer";
 import {getRedirectTo} from "../../utils";
 import {getUser} from '../../redux/actions'
 import {NavBar} from "antd-mobile";
@@ -28,6 +29,7 @@ class Main extends Component {
              title: '大神列表',
              icon: 'god',
              text: '大神',
+            hide:false,
          },
          {
              path: '/god',  //路由路径
@@ -35,6 +37,8 @@ class Main extends Component {
              title: '老板列表',
              icon: 'boss',
              text: '老板',
+             hide:false,
+
          },
          {
              path: '/message', // 路由路径
@@ -42,6 +46,7 @@ class Main extends Component {
              title: '消息列表',
              icon: 'message',
              text: '消息',
+             hide:false,
          },
          {
              path: '/personal',  //路由路径
@@ -49,6 +54,7 @@ class Main extends Component {
              title: '用户中心',
              icon: 'personal',
              text: '个人',
+             hide:false,
          } ];
 
     render() {
@@ -74,11 +80,14 @@ class Main extends Component {
             <div>
                 {currentNav?<NavBar>{currentNav.title}</NavBar>:null}
                 <Switch>
+                    {
+                        navList.map((nav,index)=><Route key={index} path={nav.path} component={nav.component}/>)
+                    }
                     <Route path='/godinfo' component={GodInfo}/>
                     <Route path='/bossinfo' component={BossInfo}/>
                     <Route component={NotFound}/>
                 </Switch>
-                {currentNav?<div>底部</div>:null}
+                {currentNav?<NavFooter navList={navList}/>:null}
             </div>
         )
     }

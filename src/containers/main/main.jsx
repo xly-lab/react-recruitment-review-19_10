@@ -5,8 +5,15 @@ import Cookies from 'js-cookie'
 
 import GodInfo from '../god-info/god-info'
 import BossInfo from '../boss-info/boss-info'
+import Message from "../message/message";
+import Boss from "../boss/boss";
+import God from "../god/god";
+import NotFound from "../../components/not-found/not-found";
+import Personal from "../personal/personal";
 import {getRedirectTo} from "../../utils";
 import {getUser} from '../../redux/actions'
+import {NavBar} from "antd-mobile";
+
 class Main extends Component {
     componentDidMount() {
         const userid = Cookies.get('userid');
@@ -16,6 +23,33 @@ class Main extends Component {
             this.props.getUser();
         }
     }
+    navList = [ { path: '/boss', // 路由路径
+             component: Boss,
+             title: '大神列表',
+             icon: 'god',
+             text: '大神',
+         },
+         {
+             path: '/god',  //路由路径
+             component: God,
+             title: '老板列表',
+             icon: 'boss',
+             text: '老板',
+         },
+         {
+             path: '/message', // 路由路径
+             component: Message,
+             title: '消息列表',
+             icon: 'message',
+             text: '消息',
+         },
+         {
+             path: '/personal',  //路由路径
+             component: Personal,
+             title: '用户中心',
+             icon: 'personal',
+             text: '个人',
+         } ];
 
     render() {
         const {user} = this.props;
@@ -34,12 +68,17 @@ class Main extends Component {
                 return <Redirect to={path}/>
             }
         }
+        const {navList} = this;
+        const currentNav = navList.find(nav=>nav.path===this.props.location.pathname);
         return (
             <div>
+                {currentNav?<NavBar>{currentNav.title}</NavBar>:null}
                 <Switch>
                     <Route path='/godinfo' component={GodInfo}/>
                     <Route path='/bossinfo' component={BossInfo}/>
+                    <Route component={NotFound}/>
                 </Switch>
+                {currentNav?<div>底部</div>:null}
             </div>
         )
     }

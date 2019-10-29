@@ -1,4 +1,4 @@
-import {reqLogin,reqRegister,reqUpdate} from '../api/index'
+import {reqLogin, reqRegister, reqUpdate, reqUser} from '../api/index'
 import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG,RECEIVE_USER,RESET_USER} from './action-types'
 // ========================同步=============================================================
 //授权成功的同步action
@@ -68,3 +68,16 @@ export const update=(user)=>{
         }
     }
 };
+
+//异步获取user
+export const getUser=()=>{
+    return async dispatch=>{
+        const response =await reqUser();
+        const result = response.data;
+        if(result.code===0){
+            dispatch(receiveUser(result.data))
+        }else {
+            dispatch(resetUser(result.msg));
+        }
+    }
+}

@@ -42,7 +42,7 @@ class Login extends Component {
                 <WingBlank>
                     <List>
                         <InputItem placeholder='你的账户' onChange={e=>this.setState({username:e})}>账号：</InputItem>
-                        <InputItem  type='password' onChange={e=>this.setState({password:e})}>密码：</InputItem>
+                        <InputItem placeholder='你的密码' type='password' onChange={e=>this.setState({password:e})}>密码：</InputItem>
                     </List>
                     <WhiteSpace/>
                     <Button type='primary' onClick={this.loginGo}>登录</Button>

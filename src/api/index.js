@@ -11,3 +11,6 @@ export const reqUpdate = (user) =>ajax('/update',user,'POST');
 
 //获取user
 export const reqUser = () => ajax('/user');
+
+//获取userlist
+export const reqUserList = (type)=>ajax('/userlist',{type});

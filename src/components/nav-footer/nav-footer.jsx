@@ -10,6 +10,8 @@ const Item = TabBar.Item;
     render() {
         let {navList} =this.props;
         navList=navList.filter(nav=>!nav.hide);
+        const path = this.props.location.pathname;
+        console.log(navList)
         return (
             <TabBar>
                 {navList.map(nav=>(
@@ -17,7 +19,7 @@ const Item = TabBar.Item;
                         title={nav.text}
                         icon={{uri:require(`../../assets/images/${nav.icon}.png`)}}
                         selectedIcon={{uri:require(`../../assets/images/${nav.icon}-selected.png`)}}
-                        selected={this.props.location.pathname===nav.path}
+                        selected={path===nav.path}
                         onPress={()=>{this.props.history.replace(nav.path)}}
                 />
                 ))}

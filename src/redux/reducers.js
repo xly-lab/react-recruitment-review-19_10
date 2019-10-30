@@ -3,7 +3,8 @@ import {getRedirectTo} from '../utils'
 import {
     AUTH_SUCCESS,
     ERROR_MSG,INIT_MSG,
-    RESET_USER,RECEIVE_USER
+    RESET_USER,RECEIVE_USER,
+    RECEIVE_USER_LIST
 } from './action-types'
 
 const userInit = {
@@ -12,7 +13,7 @@ const userInit = {
     msg:'' ,     //错误提示信息
     redirectTo:''
 };
-
+//与user相关的reducers
 function user(state = userInit ,action) {
     switch (action.type) {
         case AUTH_SUCCESS:
@@ -30,7 +31,17 @@ function user(state = userInit ,action) {
             return state
     }
 }
+const initUserList=[];
+//与userlist相关的reducers
+function userlist(state = initUserList, action) {
+    switch (action.type) {
+        case RECEIVE_USER_LIST:
+            return action.data;
+        default:
+            return state
+    }
+}
 
 export default combineReducers({
-    user
+    user,userlist
 })

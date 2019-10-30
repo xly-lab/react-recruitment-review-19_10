@@ -25,7 +25,7 @@ class Personal extends Component {
     render() {
         const {username,post,salary,company,info} = this.props.user;
         return (
-            <div>
+            <div className='personal'>
                 <WingBlank>
                     <WhiteSpace/>
                     <Result img={<img src={require(`../../assets/header/头像1.png`)} style={{width: 50}} alt="header"/>}

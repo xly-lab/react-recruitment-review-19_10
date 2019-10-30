@@ -20,14 +20,13 @@ class GodInfo extends Component {
     };
     render() {
         const {header,type} =this.props.user;
-        debugger
         if(header){
             let path=type==='boss'?'/boss':'/god';
             return <Redirect to={path}/>
         }
         return (
-            <div>
-                <NavBar>God 信息</NavBar>
+            <div className='god-info'>
+                <NavBar className='stick-top'>God 信息</NavBar>
                 <WingBlank>
                 <HeaderSeleter getHeader={this.getHeader}/>
                     <WhiteSpace/>
@@ -36,7 +35,7 @@ class GodInfo extends Component {
                                   rows={3}
                                   onChange={e=>this.setState({info:e})}/>
                     <WhiteSpace/>
-                    <Button type='primary' onClick={this.save()}>保存</Button>
+                    <Button type='primary' onClick={this.save}>保存</Button>
                 </WingBlank>
             </div>
         )

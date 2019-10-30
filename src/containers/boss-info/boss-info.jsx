@@ -5,7 +5,8 @@ import {Redirect} from 'react-router-dom'
 
 import HeaderSeleter from "../../components/header-seleter/header-seleter";
 import {update} from '../../redux/actions'
- class BossInfo extends Component {
+
+class BossInfo extends Component {
      state={
          company:'',
          info:'',
@@ -27,7 +28,7 @@ import {update} from '../../redux/actions'
         }
         return (
             <div className='boss-info'>
-                <NavBar>Boss 信息</NavBar>
+                <NavBar className='stick-top'>Boss 信息</NavBar>
                 <WingBlank>
                 <HeaderSeleter getHeader={this.getHeader}/>
                     <WhiteSpace/>

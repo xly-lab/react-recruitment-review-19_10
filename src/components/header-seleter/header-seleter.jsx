@@ -22,12 +22,11 @@ export default class HeaderSeleter extends Component {
         }
     }
     sendHeader=({text,icon})=>{
-        console.log({text,icon})
         this.props.getHeader(text);
         this.setState({icon})
     };
     render() {
-        const {icon} = this.state
+        const {icon} = this.state;
         const showHeader = !icon?'请选择你的头像':(
             <div>
                 <p className='header-p'>你选择的头像:</p><img src={icon}/>

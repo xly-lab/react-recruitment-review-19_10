@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Switch,Route,Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {NavBar} from "antd-mobile";
 import Cookies from 'js-cookie'
 
 import GodInfo from '../god-info/god-info'
@@ -11,9 +12,10 @@ import God from "../god/god";
 import NotFound from "../../components/not-found/not-found";
 import Personal from "../personal/personal";
 import NavFooter from "../../components/nav-footer/nav-footer";
+import Chat from "../chat/chat";
+
 import {getRedirectTo} from "../../utils";
 import {getUser} from '../../redux/actions'
-import {NavBar} from "antd-mobile";
 
 class Main extends Component {
     componentDidMount() {
@@ -95,6 +97,7 @@ class Main extends Component {
                     }
                     <Route path='/godinfo' component={GodInfo}/>
                     <Route path='/bossinfo' component={BossInfo}/>
+                    <Route path='/chat/:userid' component={Chat}/>
                     <Route component={NotFound}/>
                 </Switch>
                 {currentNav?<NavFooter navList={navList}/>:null}

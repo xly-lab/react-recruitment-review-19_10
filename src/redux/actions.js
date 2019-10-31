@@ -1,3 +1,4 @@
+import io from 'socket.io-client'
 import {reqLogin, reqRegister, reqUpdate, reqUser, reqUserList} from '../api/index'
 import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG,RECEIVE_USER,RESET_USER,RECEIVE_USER_LIST} from './action-types'
 // ========================同步=============================================================
@@ -92,5 +93,21 @@ export const getUserList=(type)=>{
         if(result.code===0){
             dispatch(receiveUserList(result.data))
         }
+    }
+};
+function initIO() {
+    if(!io.socket){
+        io.socket = io('ws://localhost:5000');
+        io.socket.on('receiveMsg',(data)=>{
+            console.log('服务器向客户端发送的消息是：',data)
+        });
+    }
+}
+//发送消息的异步action
+export const sendMsg=({from,to,content})=>{
+    return dispatch=>{
+        console.log('客户端向服务器端发送消息',{from,to,content});
+        initIO();
+        io.socket.emit('sendMsg',{from,to,content});
     }
 };

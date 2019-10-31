@@ -12,7 +12,7 @@ const receiveUser = (user) =>({type:RECEIVE_USER,data:user});
 //重置userde的同步action
 const resetUser = (msg) =>({type:RESET_USER,data:msg});
 //获取user list 的同步action
-const receiveUserList = (userlist)=>({type:RECEIVE_USER_LIST,data:userlist})
+const receiveUserList = (userlist)=>({type:RECEIVE_USER_LIST,data:userlist});
 // ============================异步===========================================================
 //注册异步action
 export const register = (user) =>{

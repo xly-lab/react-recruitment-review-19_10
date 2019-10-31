@@ -10,6 +10,8 @@ import Register from "./containers/register/register";
 
 import './assets/css/theme-css.less'
 
+import './test/socketIO'
+
 ReactDOM.render((
     <Provider store={store}>
         <HashRouter>

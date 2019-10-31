@@ -5,7 +5,7 @@ import UserList from "../../components/user-list/user-list";
 
 class God extends Component {
     componentDidMount() {
-        this.props.getUserList('god')
+        this.props.getUserList('boss')
     }
 
     render() {

@@ -17,10 +17,9 @@ export default class UserList extends Component {
                         userlist.map(user=>(
                             <div key={user._id}>
                                 <WhiteSpace/>
-                                {user.header?
                                 <Card>
                                     <Header
-                                        thumb={require(`../../assets/header/${user.header}.png`)}
+                                        thumb={require(`../../assets/header/${user.header?user.header:'头像1'}.png`)}
                                         extra={user.username} />
                                     <Body>
                                         <div>职位: {user.post}</div>
@@ -29,7 +28,6 @@ export default class UserList extends Component {
                                         <div>描述: {user.info}</div>
                                     </Body>
                                 </Card>
-                                :null}
                             </div>
                         ))
                     }

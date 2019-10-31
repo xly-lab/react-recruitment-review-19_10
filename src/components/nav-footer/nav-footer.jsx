@@ -11,7 +11,6 @@ const Item = TabBar.Item;
         let {navList} =this.props;
         navList=navList.filter(nav=>!nav.hide);
         const path = this.props.location.pathname;
-        console.log(navList)
         return (
             <TabBar>
                 {navList.map(nav=>(

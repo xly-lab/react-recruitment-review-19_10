@@ -23,12 +23,12 @@ class Personal extends Component {
             ])
     };
     render() {
-        const {username,post,salary,company,info} = this.props.user;
+        const {username,post,salary,company,info,header} = this.props.user;
         return (
             <div className='personal'>
                 <WingBlank>
                     <WhiteSpace/>
-                    <Result img={<img src={require(`../../assets/header/头像1.png`)} style={{width: 50}} alt="header"/>}
+                    <Result img={<img src={require(`../../assets/header/${header}.png`)} style={{width: 50}} alt="header"/>}
                         title={username}
                         message={company} />
                         <List renderHeader={() => '相关信息'}>

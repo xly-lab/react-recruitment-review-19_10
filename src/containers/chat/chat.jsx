@@ -20,15 +20,48 @@ class Chat extends Component {
         this.setState({content:''})
     };
     render() {
+        const {user} =this.props;
+        const {users,chatMsgs} =this.props.chat;
+        const meId = user._id;//我的id
+        if(!users[meId]){
+            return null
+        }
+        const targetId = this.props.match.params.userid;//对方的id
+        const chatMsg_id = [meId,targetId].sort().join('_');//查询条件
+        console.log(chatMsgs);
+
+        const msgs = chatMsgs.filter(msg=>msg.chat_id===chatMsg_id);//从所有的chatMsgList里选出当前与chatMsg_id相同的消息列表
+        console.log(msgs);
+        const targetHeader = users[targetId].header;
+        const targerIcon = targetHeader?require(`../../assets/header/${targetHeader}.png`):require(`../../assets/header/头像1.png`);
+        const meIcon = user.header?require(`../../assets/header/${user.header}.png`):require(`../../assets/header/头像1.png`);
         return (
             <div id='chat-page'>
                 <NavBar
-                    icon={<Icon type="left" />}
-                    className='stick-top'>aa</NavBar>
+                    icon={<Icon onClick={()=>this.props.history.goBack()} type="left" />}
+                    className='stick-top'>{users[targetId].username}</NavBar>
                 <WingBlank >
                     <List>
-                        <Item extra="10:30" thumb={require('../../assets/header/头像1.png')} > 你好 </Item>
-                        <Item  extra="10:30"  className='chat-me' thumb={require('../../assets/header/头像1.png')}> 很好 </Item>
+                        {
+                            msgs.map(msg=> {
+                                if (msg.fr === targetId) {
+                                    return (
+                                        <Item extra={msg.create_time}
+                                              key={msg._id}
+                                              thumb={targerIcon}>:&nbsp;&nbsp;&nbsp;&nbsp;{msg.content} </Item>
+                                    )
+                                } else {
+                                    return (
+                                        <Item extra={msg.create_time}
+                                              key={msg._id}
+                                              className='chat-me'
+                                              thumb={meIcon}>{msg.content}&nbsp;&nbsp;&nbsp;&nbsp;:</Item>
+                                    )
+                                }
+                            })
+                        }
+                        {/*<Item extra="10:30" thumb={require('../../assets/header/头像1.png')} > 你好 </Item>*/}
+                        {/*<Item  extra="10:30"  className='chat-me' thumb={require('../../assets/header/头像1.png')}> 很好 </Item>*/}
                     </List>
 
                 </WingBlank>
@@ -41,5 +74,5 @@ class Chat extends Component {
     }
 }
 export default connect(
-    state=>({user:state.user}),{sendMsg}
+    state=>({user:state.user,chat:state.chat}),{sendMsg}
 )(Chat)

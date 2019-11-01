@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {NavBar, List, InputItem,WingBlank} from 'antd-mobile'
+import {NavBar, List, InputItem,WingBlank,Icon} from 'antd-mobile'
 import {connect} from 'react-redux'
 
 import {sendMsg} from '../../redux/actions'
@@ -11,17 +11,20 @@ class Chat extends Component {
         content:''
     };
     handleSend=()=>{
-        const from = this.props.user._id;
+        const fr = this.props.user._id;
         const to = this.props.match.params.userid;
         const content = this.state.content.trim();
         if(content){
-            this.props.sendMsg({from,to,content});
+            this.props.sendMsg({fr,to,content});
         }
+        this.setState({content:''})
     };
     render() {
         return (
             <div id='chat-page'>
-                <NavBar className='stick-top'>aa</NavBar>
+                <NavBar
+                    icon={<Icon type="left" />}
+                    className='stick-top'>aa</NavBar>
                 <WingBlank >
                     <List>
                         <Item extra="10:30" thumb={require('../../assets/header/头像1.png')} > 你好 </Item>

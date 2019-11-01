@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
-import {reqLogin, reqRegister, reqUpdate, reqUser, reqUserList} from '../api/index'
-import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG,RECEIVE_USER,RESET_USER,RECEIVE_USER_LIST} from './action-types'
+import {reqLogin, reqRegister, reqUpdate, reqUser, reqUserList,reqChatMsgList,reqReadMsg} from '../api/index'
+import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG,RECEIVE_USER,RESET_USER,RECEIVE_USER_LIST,RECEIVE_MSG_LIST,RECIVE_MSG} from './action-types'
 // ========================同步=============================================================
 //授权成功的同步action
 const authSuccess =(user) => ({type:AUTH_SUCCESS,data:user});
@@ -14,6 +14,10 @@ const receiveUser = (user) =>({type:RECEIVE_USER,data:user});
 const resetUser = (msg) =>({type:RESET_USER,data:msg});
 //获取user list 的同步action
 const receiveUserList = (userlist)=>({type:RECEIVE_USER_LIST,data:userlist});
+//获取chatMsgList的同步action
+export const receiveChatMsgList = (chatMsg) =>({type:RECEIVE_MSG_LIST,data:chatMsg});
+
+
 // ============================异步===========================================================
 //注册异步action
 export const register = (user) =>{
@@ -31,6 +35,7 @@ export const register = (user) =>{
       const response = await reqRegister({username,password,type});
       const result = response.data;
       if (result.code===0){
+          getChatMsgList(dispatch);
           //成功
           dispatch(authSuccess(result.data))
       }else {
@@ -51,6 +56,7 @@ export const login = (user) =>{
         const response = await reqLogin(user);
         const result = response.data;
         if (result.code===0){
+            getChatMsgList(dispatch);
             //成功
             dispatch(authSuccess(result.data))
         }else {
@@ -78,6 +84,7 @@ export const getUser=()=>{
         const response =await reqUser();
         const result = response.data;
         if(result.code===0){
+            getChatMsgList(dispatch);
             dispatch(receiveUser(result.data))
         }else {
             dispatch(resetUser(result.msg));
@@ -104,10 +111,18 @@ function initIO() {
     }
 }
 //发送消息的异步action
-export const sendMsg=({from,to,content})=>{
+export const sendMsg=({fr,to,content})=>{
     return dispatch=>{
-        console.log('客户端向服务器端发送消息',{from,to,content});
-        initIO();
-        io.socket.emit('sendMsg',{from,to,content});
+        console.log('客户端向服务器端发送消息',{fr,to,content});
+        io.socket.emit('sendMsg',{fr,to,content});
     }
 };
+//工具函数获取chatMshList
+async function getChatMsgList(dispatch) {
+    initIO();
+    const response = await reqChatMsgList();
+    const result = response.data;
+    if(result.code===0){
+        dispatch(receiveChatMsgList(result.data));
+    }
+}

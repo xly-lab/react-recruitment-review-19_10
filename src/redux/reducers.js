@@ -44,19 +44,26 @@ function userlist(state = initUserList, action) {
 }
 const InitChat={
     users:{},
-    msgList:{},
+    chatMsgs:[],
     unReadNum:0
-}
+};
 //与chatList相关的reducers
 function chat(state=InitChat,action) {
     switch (action.type) {
         case RECEIVE_MSG_LIST:
             const {users,chatMsgs} = action.data;
             return {
-                users,chatMsgs,
+                users,
+                chatMsgs,
                 unReadNum: 0
             };
-
+        case RECIVE_MSG:
+            const chatMsg = action.data;
+            return {
+                users:state.users,
+                chatMsgs: [...state.chatMsgs,chatMsg],
+                unReadNum: 0
+            }
         default:
             return state;
     }

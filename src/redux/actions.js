@@ -16,7 +16,8 @@ const resetUser = (msg) =>({type:RESET_USER,data:msg});
 const receiveUserList = (userlist)=>({type:RECEIVE_USER_LIST,data:userlist});
 //获取chatMsgList的同步action
 export const receiveChatMsgList = (chatMsg) =>({type:RECEIVE_MSG_LIST,data:chatMsg});
-
+//保存单挑chatMsg
+const receiveMsg = (chatMsg)=>({type:RECIVE_MSG,data:chatMsg})
 
 // ============================异步===========================================================
 //注册异步action
@@ -35,7 +36,7 @@ export const register = (user) =>{
       const response = await reqRegister({username,password,type});
       const result = response.data;
       if (result.code===0){
-          getChatMsgList(dispatch);
+          getChatMsgList(dispatch,result.data._id);
           //成功
           dispatch(authSuccess(result.data))
       }else {
@@ -56,7 +57,7 @@ export const login = (user) =>{
         const response = await reqLogin(user);
         const result = response.data;
         if (result.code===0){
-            getChatMsgList(dispatch);
+            getChatMsgList(dispatch,result.data._id);
             //成功
             dispatch(authSuccess(result.data))
         }else {
@@ -84,7 +85,7 @@ export const getUser=()=>{
         const response =await reqUser();
         const result = response.data;
         if(result.code===0){
-            getChatMsgList(dispatch);
+            getChatMsgList(dispatch,result.data._id);
             dispatch(receiveUser(result.data))
         }else {
             dispatch(resetUser(result.msg));
@@ -102,11 +103,14 @@ export const getUserList=(type)=>{
         }
     }
 };
-function initIO() {
+function initIO(dispatch,userid) {
     if(!io.socket){
         io.socket = io('ws://localhost:5000');
-        io.socket.on('receiveMsg',(data)=>{
-            console.log('服务器向客户端发送的消息是：',data)
+        io.socket.on('receiveMsg',(chatMsg)=>{
+            console.log('服务器向客户端发送的消息是：',chatMsg)
+            if(chatMsg.fr===userid||chatMsg.to===userid){
+                dispatch(receiveMsg(chatMsg))
+            }
         });
     }
 }
@@ -118,8 +122,8 @@ export const sendMsg=({fr,to,content})=>{
     }
 };
 //工具函数获取chatMshList
-async function getChatMsgList(dispatch) {
-    initIO();
+async function getChatMsgList(dispatch,userid) {
+    initIO(dispatch,userid);
     const response = await reqChatMsgList();
     const result = response.data;
     if(result.code===0){

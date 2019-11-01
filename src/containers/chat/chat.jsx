@@ -28,10 +28,8 @@ class Chat extends Component {
         }
         const targetId = this.props.match.params.userid;//对方的id
         const chatMsg_id = [meId,targetId].sort().join('_');//查询条件
-        console.log(chatMsgs);
 
         const msgs = chatMsgs.filter(msg=>msg.chat_id===chatMsg_id);//从所有的chatMsgList里选出当前与chatMsg_id相同的消息列表
-        console.log(msgs);
         const targetHeader = users[targetId].header;
         const targerIcon = targetHeader?require(`../../assets/header/${targetHeader}.png`):require(`../../assets/header/头像1.png`);
         const meIcon = user.header?require(`../../assets/header/${user.header}.png`):require(`../../assets/header/头像1.png`);

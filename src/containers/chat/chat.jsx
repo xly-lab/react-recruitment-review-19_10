@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {NavBar, List, InputItem,WingBlank,Icon} from 'antd-mobile'
+import {NavBar, List, InputItem,WingBlank,Icon,Grid} from 'antd-mobile'
 import {connect} from 'react-redux'
 
 import {sendMsg} from '../../redux/actions'
@@ -8,8 +8,33 @@ const Item = List.Item;
 const Brief = List.Brief;
 class Chat extends Component {
     state={
-        content:''
+        content:'',
+        isShow:false
     };
+    toggle=()=>{
+        const isShow = !this.state.isShow;
+        this.setState({isShow});
+        if(isShow){
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'))
+            }, 0)
+        }
+    };
+    componentWillMount() {
+        const emojis=['😀', '😃', '😄', '😁', '😆' , '😅' , '🤣' , '😂' , '🙂' , '🙃' , '😉' , '😊' ,
+                      '😇' , '🥰' , '😍' , '🤩' , '😘' , '😗' , '☺' , '😚' , '😙' , '😋', '😛' , '😜', '🤪', '😝' , '🤑' ,
+                      '🤗' , '🤭', '🤫' , '🤔' , '🤐', '🤨' , '😐', '😑' , '😶' , '😏' , '😒' , '🙄', '😬' , '🤥' , '😌' , '😔', '😪', '🤤',
+                      '😴' , '😷', '🤒' , '🤕' , '🤢' , '🤮' , '🤧' , '🥵' , '🥶', '🥴' , '😵', '🤯', '🤠' , '🥳', '😎' ,
+                      '🤓', '🧐' , '😕' , '😟' , '🙁' , '☹' , '😮' , '😯', '😲' , '😳' , '🥺' , '😦' , '😧' , '😨' , '😰', '😥' ,
+                      '😢' , '😭' , '😱' , '😖' , '😣' , '😞' , '😓' , '😩' , '😫' , '😤' , '😡' , '😠' , '🤬', '😈' , '👿' ,
+                      '💀', '☠' , '💩', '🤡', '👹' , '👺' , '👻' , '👽' , '👾' , '🤖' , '😺' , '😸' , '😹' , '😻' , '😼' , '😽' , '🙀',
+                      '😿' , '😾', '💋' , '👋' , '🤚' , '🖐' , '✋', '🖖' , '👌' , '✌' , '🤞' , '🤟' , '🤘' , '🤙', '👈' , '👉' ,
+                      '👆' , '🖕' , '👇', '☝' , '👍' , '👎' , '✊' , '👊' , '🤛' , '🤜' , '👏' , '🙌' , '👐', '🤲' , '🤝' , '🙏',
+                      '✍' , '💅' , '🤳' , '💪' ,'🦵' , '🦶' , '👂' , '👃' , '🧠' , '🦷' , '🦴' , '👀' , '👁' , '👅' , '👄' , '👶' ,
+                      '🧒', '👦' , '👧', '🧑' , '👱' , '👨' , '🧔' , '🦰' , '🦱' , '🦳' , '🦲', '👩', '🦰','🦱','🦲','👱'];
+        this.emojis = emojis.map(em=>({text:em}))
+    }
+
     handleSend=()=>{
         const fr = this.props.user._id;
         const to = this.props.match.params.userid;
@@ -17,7 +42,7 @@ class Chat extends Component {
         if(content){
             this.props.sendMsg({fr,to,content});
         }
-        this.setState({content:''})
+        this.setState({content:'',isShow:false})
     };
     render() {
         const {user} =this.props;
@@ -39,7 +64,7 @@ class Chat extends Component {
                     icon={<Icon onClick={()=>this.props.history.goBack()} type="left" />}
                     className='stick-top'>{users[targetId].username}</NavBar>
                 <WingBlank >
-                    <List>
+                    <List onClick={()=>this.setState({isShow:false})}>
                         {
                             msgs.map(msg=> {
                                 if (msg.fr === targetId) {
@@ -67,7 +92,27 @@ class Chat extends Component {
                     <InputItem placeholder="请输入"
                                value={this.state.content}
                                onChange={e=>this.setState({content:e})}
-                               extra={ <span onClick={this.handleSend}>发送</span> } /> </div>
+                               onFocus={()=>this.setState({isShow:false})}
+                               extra={
+                                   <span>
+                                       <span onClick={this.toggle} style={{marginRight:8}}>🧒</span>
+                                       <span onClick={this.handleSend} className={this.state.content.length>0?'change-blank':''}>发送</span>
+                                   </span>
+                               } />
+                    {
+                        this.state.isShow?(
+                            <Grid
+                                data={this.emojis}
+                                columnNum={8}
+                                carouselMaxRow={4}
+                                isCarousel={true}
+                                onClick={(item) => {
+                                    this.setState({content: this.state.content + item.text})
+                                }}
+                            />
+                        ):null
+                    }
+                </div>
             </div> )
     }
 }

@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import {reqLogin, reqRegister, reqUpdate, reqUser, reqUserList,reqChatMsgList,reqReadMsg} from '../api/index'
-import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG,RECEIVE_USER,RESET_USER,RECEIVE_USER_LIST,RECEIVE_MSG_LIST,RECIVE_MSG} from './action-types'
+import {ERROR_MSG,AUTH_SUCCESS,INIT_MSG,RECEIVE_USER,RESET_USER,RECEIVE_USER_LIST,RECEIVE_MSG_LIST,RECIVE_MSG,MSG_READ} from './action-types'
 // ========================同步=============================================================
 //授权成功的同步action
 const authSuccess =(user) => ({type:AUTH_SUCCESS,data:user});
@@ -18,6 +18,8 @@ const receiveUserList = (userlist)=>({type:RECEIVE_USER_LIST,data:userlist});
 export const receiveChatMsgList = (chatMsgAll,userid) =>({type:RECEIVE_MSG_LIST,data:{chatMsgAll,userid}});
 //保存单挑chatMsg
 const receiveMsg = (chatMsg,userid)=>({type:RECIVE_MSG,data:{chatMsg,userid}});
+// 读取了某个聊天消息的同步action
+const msgRead = ({count, fr, to}) => ({type: MSG_READ, data: {count, fr, to}});
 
 // ============================异步===========================================================
 //注册异步action
@@ -129,4 +131,15 @@ async function getChatMsgList(dispatch,userid) {
     if(result.code===0){
         dispatch(receiveChatMsgList(result.data,userid));
     }
+}
+//异步 的消息已读action
+export const readMsg=(fr,to)=>{
+    return async dispatch =>{
+        const response = await reqReadMsg(fr);
+        const result = response.data;
+        if(result.code===0){
+            dispatch(msgRead({count:result.data,fr,to}))
+        }
+    }
+
 }

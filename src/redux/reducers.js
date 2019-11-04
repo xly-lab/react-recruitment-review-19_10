@@ -2,10 +2,10 @@ import {combineReducers} from 'redux'
 import {getRedirectTo} from '../utils'
 import {
     AUTH_SUCCESS,
-    ERROR_MSG,INIT_MSG,
-    RESET_USER,RECEIVE_USER,
-    RECEIVE_USER_LIST,RECIVE_MSG,
-    RECEIVE_MSG_LIST
+    ERROR_MSG, INIT_MSG,
+    RESET_USER, RECEIVE_USER,
+    RECEIVE_USER_LIST, RECIVE_MSG,
+    RECEIVE_MSG_LIST, MSG_READ
 } from './action-types'
 
 const userInit = {
@@ -62,7 +62,25 @@ function chat(state=InitChat,action) {
             return {
                 users:state.users,
                 chatMsgs: [...state.chatMsgs,chatMsg],
-                unReadNum: state.unReadCount + (!chatMsg.read&&chatMsg.to===action.data.userid?1:0)
+                unReadNum: state.unReadNum + (!chatMsg.read&&chatMsg.to===action.data.userid?1:0)
+            };
+        case MSG_READ:
+            const {fr, to, count} = action.data;
+            // state.chatMsgs.forEach(msg => {
+            //     if(msg.fr===fr && msg.to===to && !msg.read) {
+            //         msg.read = true
+            //     }
+            // });
+            return {
+                users: state.users,
+                chatMsgs: state.chatMsgs.map(msg => {
+                    if(msg.fr===fr && msg.to===to && !msg.read) { // 需要更新
+                        return {...msg, read: true}
+                    } else {// 不需要
+                        return msg
+                    }
+                }),
+                unReadNum: state.unReadNum-count
             };
         default:
             return state;

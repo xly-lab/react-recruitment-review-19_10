@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {List, Badge,WingBlank} from 'antd-mobile';
+import QueueAnim from 'rc-queue-anim';
+
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -39,7 +41,6 @@ function getLastMsgs(chatMsgs,userid) {
     lastMsgs.sort((m1,m2)=>{
         return m2.create_tiem-m1.create_time;
     });
-    console.log(lastMsgs);
     return lastMsgs
 }
 
@@ -52,13 +53,14 @@ class Message extends Component {
         return (
             <div className='message'>
                 <WingBlank >
+                    <QueueAnim type='right' delay={200}>
                         {
                             lastMsgs.map(msg=>{
                                 const targetId = msg.fr === meId ? msg.to : msg.fr;
                                 const targetUser = users[targetId];
                                 return(
 
-                                        <List  key={msg._id}>
+                                    <List  key={msg._id}>
                                         <Item extra={<Badge text={msg.unReadCount}/>}
                                               thumb={require(`../../assets/header/${targetUser.header?targetUser.header:'头像1'}.png`)}
                                               arrow='horizontal'
@@ -66,11 +68,12 @@ class Message extends Component {
                                             {msg.content}
                                             <Brief>{targetUser.username}</Brief>
                                         </Item>
-                                        </List>
+                                    </List>
 
                                 )
                             })
                         }
+                    </QueueAnim>
                 </WingBlank>
             </div>
 

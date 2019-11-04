@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import Cookies from 'js-cookie'
 import {Result, List, WhiteSpace, Button,WingBlank,Modal} from 'antd-mobile'
+import QueueAnim from 'rc-queue-anim';
+
 import {connect} from 'react-redux'
 import {initMsg} from '../../redux/actions'
 const Item = List.Item;
@@ -26,11 +28,12 @@ class Personal extends Component {
         const {username,post,salary,company,info,header} = this.props.user;
         return (
             <div className='personal'>
-                <WingBlank>
-                    <WhiteSpace/>
-                    <Result img={<img src={require(`../../assets/header/${header}.png`)} style={{width: 50}} alt="header"/>}
-                        title={username}
-                        message={company} />
+                <QueueAnim type='left' delay={100}>
+                    <WingBlank>
+                        <WhiteSpace/>
+                        <Result img={<img src={require(`../../assets/header/${header}.png`)} style={{width: 50}} alt="header"/>}
+                                title={username}
+                                message={company} />
                         <List renderHeader={() => '相关信息'}>
                             <Item multipleLine>
                                 <Brief>职位: {post}</Brief>
@@ -38,11 +41,12 @@ class Personal extends Component {
                                 {salary?<Brief>薪资: {salary}</Brief>:null}
                             </Item>
                         </List>
-                <WhiteSpace/>
-                <List>
-                    <Button type='warning' onClick={this.logOut}>退出登录</Button>
-                </List>
-                </WingBlank>
+                        <WhiteSpace/>
+                        <List>
+                            <Button type='warning' onClick={this.logOut}>退出登录</Button>
+                        </List>
+                    </WingBlank>
+                </QueueAnim>
             </div>
         )
     }

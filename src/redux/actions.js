@@ -15,9 +15,9 @@ const resetUser = (msg) =>({type:RESET_USER,data:msg});
 //获取user list 的同步action
 const receiveUserList = (userlist)=>({type:RECEIVE_USER_LIST,data:userlist});
 //获取chatMsgList的同步action
-export const receiveChatMsgList = (chatMsg) =>({type:RECEIVE_MSG_LIST,data:chatMsg});
+export const receiveChatMsgList = (chatMsgAll,userid) =>({type:RECEIVE_MSG_LIST,data:{chatMsgAll,userid}});
 //保存单挑chatMsg
-const receiveMsg = (chatMsg)=>({type:RECIVE_MSG,data:chatMsg})
+const receiveMsg = (chatMsg,userid)=>({type:RECIVE_MSG,data:{chatMsg,userid}});
 
 // ============================异步===========================================================
 //注册异步action
@@ -109,7 +109,7 @@ function initIO(dispatch,userid) {
         io.socket.on('receiveMsg',(chatMsg)=>{
             console.log('服务器向客户端发送的消息是：',chatMsg)
             if(chatMsg.fr===userid||chatMsg.to===userid){
-                dispatch(receiveMsg(chatMsg))
+                dispatch(receiveMsg(chatMsg,userid))
             }
         });
     }
@@ -127,6 +127,6 @@ async function getChatMsgList(dispatch,userid) {
     const response = await reqChatMsgList();
     const result = response.data;
     if(result.code===0){
-        dispatch(receiveChatMsgList(result.data));
+        dispatch(receiveChatMsgList(result.data,userid));
     }
 }

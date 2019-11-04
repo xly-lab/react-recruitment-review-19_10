@@ -60,7 +60,7 @@ class Main extends Component {
          } ];
 
     render() {
-        const {user} = this.props;
+        const {user,unReadNum} = this.props;
         const usreid = Cookies.get('userid');
         if(!usreid){
             return <Redirect to='/login'/>
@@ -100,13 +100,13 @@ class Main extends Component {
                     <Route path='/chat/:userid' component={Chat}/>
                     <Route component={NotFound}/>
                 </Switch>
-                {currentNav?<NavFooter navList={navList}/>:null}
+                {currentNav?<NavFooter navList={navList} unReadNum={unReadNum}/>:null}
             </div>
         )
     }
 }
 export default connect(
-    state=>({user:state.user}),{getUser}
+    state=>({user:state.user,unReadNum: state.chat.unReadNum}),{getUser}
 )(Main)
 /*
 1. 实现自动登陆:

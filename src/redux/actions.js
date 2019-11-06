@@ -109,7 +109,7 @@ function initIO(dispatch,userid) {
     if(!io.socket){
         io.socket = io('ws://localhost:5000');
         io.socket.on('receiveMsg',(chatMsg)=>{
-            console.log('服务器向客户端发送的消息是：',chatMsg)
+            // console.log('服务器向客户端发送的消息是：',chatMsg);
             if(chatMsg.fr===userid||chatMsg.to===userid){
                 dispatch(receiveMsg(chatMsg,userid))
             }
@@ -119,7 +119,7 @@ function initIO(dispatch,userid) {
 //发送消息的异步action
 export const sendMsg=({fr,to,content})=>{
     return dispatch=>{
-        console.log('客户端向服务器端发送消息',{fr,to,content});
+        // console.log('客户端向服务器端发送消息',{fr,to,content});
         io.socket.emit('sendMsg',{fr,to,content});
     }
 };

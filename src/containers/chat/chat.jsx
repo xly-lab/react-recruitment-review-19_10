@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import {sendMsg,readMsg} from '../../redux/actions'
 
 const Item = List.Item;
-const Brief = List.Brief;
 class Chat extends Component {
     state={
         content:'',

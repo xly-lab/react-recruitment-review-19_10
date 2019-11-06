@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Card, WingBlank, WhiteSpace, List} from 'antd-mobile'
+import {Card, WingBlank, WhiteSpace} from 'antd-mobile'
 import {withRouter} from 'react-router-dom'
 import QueueAnim from 'rc-queue-anim';
 
